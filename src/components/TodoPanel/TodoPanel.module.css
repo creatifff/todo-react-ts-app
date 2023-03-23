@@ -1,0 +1,38 @@
+.todo_panel_container {
+    background-color: #fff;
+    box-shadow: 0px 8px 11px -8px rgba(34, 60, 80, 0.09);
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 25px 20px;
+    border-radius: 5px;
+}
+
+.fields_container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.field_container {
+    width: 100%;
+}
+
+.field_container label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 15px;
+}
+
+.field_container input {
+    font-size: 15px;
+    padding: 10px 5px;
+    border-radius: 2px;
+    border: 0.5px solid #000;
+}
+
+.button_container {
+    width: 100%;
+    text-align: right;
+}
