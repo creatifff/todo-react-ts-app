@@ -8,26 +8,29 @@
 .button_red {
     border: 1px solid rgba(210, 25, 25, .5);
     color: #d21919;
+    transition: all .1s ease-in-out;
 }
 
 .button_red:hover {
-    border: 1px solid rgba(210, 25, 25, .05);
+    border-color: rgba(210, 25, 25, 0.1);
 }
 
 .button_orange {
     border: 1px solid rgba(210, 102, 25, .5);
     color: #d27c19;
+    transition: all .1s ease-in-out;
 }
 
 .button_orange:hover {
-    border: 1px solid rgba(210, 102, 25, .05);
+    border-color: rgba(210, 102, 25, 0.1);
 }
 
 .button_blue {
     border: 1px solid rgba(25, 118, 210, .5);
     color: #1976d2;
+    transition: all .1s ease-in-out;
 }
 
 .button_blue:hover {
-    border: 1px solid rgba(25, 118, 210, .05);
+    border-color: rgba(25, 118, 210, 0.1);
 }

@@ -8,14 +8,24 @@ const DEFAULT_TODO = {
     description: '',
 }
 
-interface TodoPanelProps {
+interface AddTodoPanelProps {
+    mode: 'add';
     addTodo: ({name, description}: Omit<Todo, 'checked' | 'id'>) => void;
 }
 
-export const TodoPanel: React.FC<TodoPanelProps> = ({addTodo}) => {
+interface EditTodoPanelProps {
+    mode: 'edit';
+    editTodo: Omit<Todo, 'id' | 'checked'>;
+    changeTodo: ({name, description}: Omit<Todo, 'checked' | 'id'>) => void;
+}
+
+type TodoPanelProps = AddTodoPanelProps | EditTodoPanelProps;
+
+export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
+    const isEdit = props.mode === 'edit';
 
     // Состояние одной задачи, по умолчанию - пустые поля *
-    const [todo, setTodo] = React.useState(DEFAULT_TODO);
+    const [todo, setTodo] = React.useState(isEdit ? props.editTodo : DEFAULT_TODO);
 
     // Для записи значений из инпутов
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,8 +33,14 @@ export const TodoPanel: React.FC<TodoPanelProps> = ({addTodo}) => {
         setTodo({...todo, [name]: value});
     };
 
+    // Функция очищает поля после добавления задачи
     const onClick = () => {
-        addTodo({name: todo.name, description: todo.description})
+        const todoItem = {name: todo.name, description: todo.description}
+        if (isEdit) {
+            return props.changeTodo(todoItem)
+        }
+
+        props.addTodo(todoItem);
         setTodo(DEFAULT_TODO);
     };
 
@@ -51,9 +67,16 @@ export const TodoPanel: React.FC<TodoPanelProps> = ({addTodo}) => {
             </div>
 
             <div className={styles.button_container}>
-                <Button color='blue' onClick={onClick}>
-                    ADD
-                </Button>
+                {!isEdit && (
+                    <Button color='blue' onClick={onClick}>
+                        ADD
+                    </Button>
+                )}
+                {isEdit && (
+                    <Button color='orange' onClick={onClick}>
+                        EDIT
+                    </Button>
+                )}
             </div>
         </div>
     );
