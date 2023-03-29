@@ -8,6 +8,8 @@ declare module '*.module.css' {
     export default classes;
 }
 
+// Глобальный объект Todo
+// Для того, чтобы не импортировать в каждый файл
 type Todo = {
     id: number;
     name: string;
