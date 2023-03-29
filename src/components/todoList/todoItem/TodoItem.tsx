@@ -2,6 +2,9 @@ import React from "react";
 import styles from './TodoItem.module.css';
 import {Button} from "../../button/Button";
 
+// Все пропсы передаются в компонент TodoItem
+// todo берется глобально из index.d.ts
+// Остальные функции принимают id Todo
 interface TodoItemProps {
     todo: Todo;
     checkTodo: (id:Todo['id']) => void;
@@ -11,6 +14,7 @@ interface TodoItemProps {
 
 }
 
+// Для работы всех созданных функций нужно передать их пропсами
 export const TodoItem: React.FC<TodoItemProps> = ({
   todo,
   checkTodo,
