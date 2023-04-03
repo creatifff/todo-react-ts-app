@@ -3,14 +3,21 @@ import {TodoItem} from "./todoItem/TodoItem";
 import {TodoPanel} from "../TodoPanel/TodoPanel";
 import {useTodo} from "../../utils";
 
-
-export const TodoList: React.FC = () => {
+export const TodoList = () => {
     // Все функции и параметры для задач из списка записываются в хук useTodo
-    const {todos, todoIdForEdit, checkTodo, deleteTodo, selectTodoIdForEdit} = useTodo();
+    const {todosForFilter, todoIdForEdit, checkTodo, deleteTodo, selectTodoIdForEdit, changeFilter, filteredTodos} = useTodo();
     return (
-        <div>
+        <>
+        <div className="todolist__container">
+            <div className="filter__buttons">
+                <button id={filteredTodos === 'all' ? "active__filter" : ""} onClick={ () => { changeFilter('all') } }>Все</button>
+                <button id={filteredTodos === 'done' ? "active__filter" : ""} onClick={ () => { changeFilter('done') } }>
+                    <i className="fa-solid fa-check"></i>
+                </button>
+                <button id={filteredTodos === 'undone' ? "active__filter" : ""} onClick={ () => { changeFilter('undone') } }>Не выполнено</button>
+            </div>
             {/* По массиву задач проходимся методом map чтоб отобразить список */}
-            {todos.map((todo) => {
+            {todosForFilter.map((todo) => {
                 // Если выбран id, отобразится панель с редактированием задачи
                 if (todo.id === todoIdForEdit)
                     return (
@@ -32,5 +39,6 @@ export const TodoList: React.FC = () => {
                 )
             })}
         </div>
+        </>
     );
 }

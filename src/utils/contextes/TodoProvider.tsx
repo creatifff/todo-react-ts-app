@@ -1,14 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import DEFAULT_TODO_LIST from "../../data/todos";
 import {TodoContext} from "./TodoContext";
 
-// Пропс содержит все возможные свойства компонента TodoProvider
+// Пропсы содержит все возможные свойства компонента TodoProvider
 interface TodoProviderProps {
     children: React.ReactNode;
 }
 
+// Типы фильтров
+export type FilterValuesType = 'all' | 'done' | 'undone';
+
+
 // Все функции приложения будут работать через контекст. Поэтому создается функциональный компонент TodoProvider
-// Передается children для работы интерфейса
+// Принимает children для работы интерфейса
 export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
     // Массив задач. todos - сам массив, setTodos - функция для взаимодействия с ним
     const [todos, setTodos] = React.useState(DEFAULT_TODO_LIST);
@@ -69,28 +73,56 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
         setTodoIdForEdit(null);
     };
 
-    // В useMemo заворачиваются все функции которые будут переданы из контекста
-    // Компонент обновится только при вызове конкретной функции из хука
+
+    // Создается массив значений фильтра и записывается в стейт
+    const [filteredTodos, setFilteredTodos] = useState<FilterValuesType>('all'); // Первоначально без фильтра
+    // Функция для фильтрации задач
+    // Принимает пропсы (один из фильтров)
+    const changeFilter = (value: FilterValuesType) => {
+        setFilteredTodos(value);
+    }
+    // Изначальный массив todos становится отфильтрованным массивом, состояние изменятся
+    let todosForFilter = todos;
+
+    // Либо выполненные задачи отображаются
+    // Сравнивается тип из стейта фильтров
+    if (filteredTodos === 'done') {
+        // Если совпал, отображаются завершенные
+        todosForFilter = todos.filter(t => t.checked);
+        // Если нет - незавершенные
+    } else if (filteredTodos === 'undone') {
+        todosForFilter = todos.filter(t => !t.checked);
+    }
+
+
+
+    // В useMemo заворачиваются все пропсы которые будут переданы из контекста
     const value = React.useMemo(
         () => ({
             todoIdForEdit,
-            todos,
+            todosForFilter,
             deleteTodo,
             changeTodo,
             addTodo,
             selectTodoIdForEdit,
             checkTodo,
+            changeFilter,
+            todos,
+            filteredTodos,
         }), [
             todoIdForEdit,
-            todos,
+            todosForFilter,
             deleteTodo,
             changeTodo,
             addTodo,
             selectTodoIdForEdit,
             checkTodo,
+            changeFilter,
+            todos,
+            filteredTodos,
         ]);
 
     // Компонент работает с Provider и в качестве value (пропса) принимает все переданные функции из контекста
-    // Все вышеописанные функции передаются внутрь провайдера для работы в App.tsx
+    // Все вышеописанные функции передаются внутрь провайдера для отображения в App.tsx
     return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>
 }

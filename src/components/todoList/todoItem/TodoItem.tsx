@@ -38,8 +38,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({
                     {todo.description}
                 </div>
                 <div className={styles.todo_item_btn}>
-                    <Button color='orange' onClick={() => selectTodoIdForEdit(todo.id)}>EDIT</Button>
-                    <Button color='red' onClick={() => deleteTodo(todo.id)}>DELETE</Button>
+                    <Button color='orange' onClick={() => selectTodoIdForEdit(todo.id)}>ИЗМЕНИТЬ</Button>
+                    <Button color='red' onClick={() => deleteTodo(todo.id)}>УДАЛИТЬ</Button>
                 </div>
             </div>
         </div>

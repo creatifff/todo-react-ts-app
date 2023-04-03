@@ -14,7 +14,7 @@ const DEFAULT_TODO_LIST = [
     {
         id: 3,
         name: 'task3',
-        description: 'sampletextsampletextsampletext',
+        description: 'large sample text for completed task',
         checked: true,
     }
 ]
