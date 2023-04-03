@@ -1,4 +1,4 @@
-import React from "react";
+import React, {KeyboardEvent, useState} from "react";
 import styles from './TodoPanel.module.css';
 import {Button} from "../button/Button";
 import {useTodo} from "../../utils";
@@ -26,6 +26,7 @@ type TodoPanelProps = AddTodoPanelProps | EditTodoPanelProps;
 
 export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
 
+    // Функции вытаскиваются из хука
     const {changeTodo, addTodo} = useTodo();
 
     // Выбираем режим для редактирования
@@ -44,17 +45,47 @@ export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
         setTodo({...todo, [name]: value});
     };
 
+    // Стейт ошибки. По умолчанию нет ошибки. Принимает строку (вывод текста ошибки)
+    const [error, setError] = useState<string | null>(null);
+
     // Функция записывает значения и после нажатия кнопки стирает введенные данные
     const onClick = () => {
         // Если задача редактируется (mode: edit) то задача будет переписываться
         const todoItem = {name: todo.name, description: todo.description}
-        if (isEdit) {
-            return changeTodo(todoItem)
+        // Если пустой заголовок, задача не добавится. Также если есть пробелы, они обрезаются методом trim()
+        if(todo.name.trim() !== "") {
+            if (isEdit) {
+                return changeTodo(todoItem)
+            }
+            // Добавление нового или редактирование
+            addTodo(todoItem);
+            // Возврат пустых полей
+            setTodo(DEFAULT_TODO);
+            // также если нет заголовка, выводится текст ошибки
+        } else {
+            setError('Заголовок обязателен');
         }
 
-        addTodo(todoItem);
-        setTodo(DEFAULT_TODO);
     };
+
+    // Тоже добавление, но по кнопке "Enter"
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
+        if (e.charCode === 13) {
+            const todoItem = {name: todo.name, description: todo.description}
+            if(todo.name.trim() !== "") {
+                if (isEdit) {
+                    return changeTodo(todoItem)
+                }
+                // Добавление нового или редактирование
+                addTodo(todoItem);
+                // Возврат пустых полей
+                setTodo(DEFAULT_TODO);
+            } else {
+                setError('Заголовок обязателен');
+            }
+        }
+    }
 
 
     return (
@@ -63,16 +94,27 @@ export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
 
                 <div className={styles.field_container}>
                     <label htmlFor="name">
-                        <div>Name</div>
-                        <input type="text" id="name" value={todo.name} name="name" onChange={onChange}/>
+                        <div>Заголовок</div>
+                        <input type="text" id="name"
+                               value={todo.name}
+                               name="name"
+                               onChange={onChange}
+                               onKeyPress={onKeyPressHandler}
+                               className={error ? styles.error : ""}
+                        />
+                        {error && <div className={styles.error_message}>{error}</div>}
                     </label>
                 </div>
 
                 <div className={styles.field_container}>
                     <label htmlFor="description">
-                        <div>Description</div>
-                        <input type="text" id="description" value={todo.description} name="description"
-                               onChange={onChange}/>
+                        <div>Описание</div>
+                        <input type="text" id="description"
+                               value={todo.description}
+                               name="description"
+                               onChange={onChange}
+                               onKeyPress={onKeyPressHandler}
+                        />
                     </label>
                 </div>
 
@@ -82,13 +124,13 @@ export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
                 {/* По умолчанию панели редактирования нет, поэтому кнопка ADD то есть только добавить */}
                 {!isEdit && (
                     <Button color='blue' onClick={onClick}>
-                        ADD
+                        ДОБАВИТЬ
                     </Button>
                 )}
                 {/* Если редактируется то появляется панель, вместо ADD кнопка EDIT */}
                 {isEdit && (
-                    <Button color='orange' onClick={onClick}>
-                        EDIT
+                    <Button color='blue' onClick={onClick}>
+                        ПРИМЕНИТЬ
                     </Button>
                 )}
             </div>

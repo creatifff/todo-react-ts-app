@@ -1,3 +1,37 @@
 body {
-  background-color: #e8e8e8;
+  background-color: #e5e5e5;
 }
+
+.todolist__container {
+  padding: 20px;
+  background-color: #cfd8de;
+  border-radius: 20px;
+}
+
+.filter__buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+}
+
+
+
+.filter__buttons button {
+  border: none;
+  outline: none;
+  background-color: #1a70c5;
+  color: white;
+  border-radius: 10px;
+  padding: 5px 8px;
+  font-family: Arial;
+}
+
+#active__filter {
+  color: #1a70c5;
+  border: 1px solid #1a70c5;
+  background-color: #fff;
+  font-weight: bold;
+}
+
+
