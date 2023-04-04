@@ -11,8 +11,8 @@ export interface TodoContextProps {
     checkTodo: (id: Todo['id']) => void;
     deleteTodo: (id: Todo['id']) => void;
     selectTodoIdForEdit: (id: Todo['id']) => void;
-    changeTodo: ({name, description}: Omit<Todo, 'checked' | 'id'>) => void;
-    addTodo: ({name, description}: Omit<Todo, 'checked' | 'id'>) => void;
+    changeTodo: ({name, description, deadline}: Omit<Todo, 'checked' | 'id' | 'created_at'>) => void;
+    addTodo: ({name, description, deadline}: Omit<Todo, 'checked' | 'id' | 'created_at'>) => void;
     changeFilter: (value: FilterValuesType) => void;
     filteredTodos: FilterValuesType;
 }

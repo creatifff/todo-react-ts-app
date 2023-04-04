@@ -15,4 +15,6 @@ type Todo = {
     name: string;
     description: string;
     checked: boolean;
+    created_at: string;
+    deadline: string;
 };

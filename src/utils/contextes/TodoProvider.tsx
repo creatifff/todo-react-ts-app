@@ -26,11 +26,19 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
     }
 
     // Функция для добавления задачи
-    // Принимает в себя заполняемые поля "name", "description". Omit исключает ненужные для функции ключи "checked", "id"
-    const addTodo = ({name, description}: Omit<Todo, 'checked' | 'id'>) => {
+    // Принимает в себя заполняемые поля "name", "description", "deadline". Omit исключает ненужные для функции ключи "checked", "id", "created_at"
+    const addTodo = ({name, description, deadline}: Omit<Todo, 'checked' | 'id' | 'created_at'>) => {
         // Для создания задачи будет генерироваться новый id. Берется id последней todo и добавляется + 1
         // По умолчанию todo будет со статусом "Не выполнена"
-        setTodos([...todos, {id: todos[todos.length - 1].id + 1, description, name, checked: false}])
+        setTodos([...todos,
+            {
+                id: todos[todos.length - 1].id + 1,
+                description, // Это поле записывает юзер
+                name, // Это поле записывает юзер
+                deadline, // Это поле записывает юзер
+                checked: false,
+                created_at: new Date().toISOString().slice(0,10),
+            }])
     };
 
     // Функция для изменения статуса задачи "Выполнена"/"Не выполнена"
@@ -51,19 +59,19 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
     // Функция для удаления задачи
     const deleteTodo = (id: Todo['id']) => {
         // Фильтрация todos методом filter
-        // Фильтруется все, кроме тех, где есть совпадение по id
+        // Фильтруется все, кроме тех, где есть совпадение по id (удаляется)
         setTodos(todos.filter(todo => todo.id !== id));
     }
 
     // Функция для редактирования задачи
     // Принимает редактируемые поля, нередактируемые исключаются с помощью Omit
-    const changeTodo = ({name, description}: Omit<Todo, 'checked' | 'id'>) => {
+    const changeTodo = ({name, description, deadline}: Omit<Todo, 'checked' | 'id' | 'created_at'>) => {
         // в setTodos, принимающей массив задач todos, методом map создаем новый массив
         setTodos(
             todos.map(todo => {
                 // Если id задачи совпадает с выбранным id, передаем новые значения полей "name" и "description"
                 if (todo.id === todoIdForEdit) {
-                    return {...todo, name, description};
+                    return {...todo, name, description, deadline};
                 }
                 // Иначе задача остается как есть
                 return todo;
@@ -75,7 +83,7 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
 
 
     // Создается массив значений фильтра и записывается в стейт
-    const [filteredTodos, setFilteredTodos] = useState<FilterValuesType>('all'); // Первоначально без фильтра
+    const [filteredTodos, setFilteredTodos] = useState<FilterValuesType>('all'); // Первоначально "Все"
     // Функция для фильтрации задач
     // Принимает пропсы (один из фильтров)
     const changeFilter = (value: FilterValuesType) => {
@@ -93,7 +101,6 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
     } else if (filteredTodos === 'undone') {
         todosForFilter = todos.filter(t => !t.checked);
     }
-
 
 
     // В useMemo заворачиваются все пропсы которые будут переданы из контекста
