@@ -7,6 +7,7 @@ import {useTodo} from "../../utils";
 const DEFAULT_TODO = {
     name: '',
     description: '',
+    deadline: '',
 }
 
 // В интерфейсе добавления добавляется mode add
@@ -14,11 +15,11 @@ interface AddTodoPanelProps {
     mode: 'add';
 }
 
-// В интерфейсе редактирования id и checked не нужен поэтому исключается Omit
+// В интерфейсе редактирования id, checked, created_at не нужен поэтому исключается Omit
 // Добавляется мод edit
 interface EditTodoPanelProps {
     mode: 'edit';
-    editTodo: Omit<Todo, 'id' | 'checked'>;
+    editTodo: Omit<Todo, 'id' | 'checked'| 'created_at'>;
 }
 
 // Два интерфейса с помощью юниона объединяем в один
@@ -51,7 +52,11 @@ export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
     // Функция записывает значения и после нажатия кнопки стирает введенные данные
     const onClick = () => {
         // Если задача редактируется (mode: edit) то задача будет переписываться
-        const todoItem = {name: todo.name, description: todo.description}
+        const todoItem = {
+            name: todo.name,
+            description: todo.description,
+            deadline: todo.deadline,
+        }
         // Если пустой заголовок, задача не добавится. Также если есть пробелы, они обрезаются методом trim()
         if(todo.name.trim() !== "") {
             if (isEdit) {
@@ -72,7 +77,11 @@ export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.charCode === 13) {
-            const todoItem = {name: todo.name, description: todo.description}
+            const todoItem = {
+                name: todo.name,
+                description: todo.description,
+                deadline: todo.deadline,
+            }
             if(todo.name.trim() !== "") {
                 if (isEdit) {
                     return changeTodo(todoItem)
@@ -112,6 +121,18 @@ export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
                         <input type="text" id="description"
                                value={todo.description}
                                name="description"
+                               onChange={onChange}
+                               onKeyPress={onKeyPressHandler}
+                        />
+                    </label>
+                </div>
+
+                <div className={styles.field_container}>
+                    <label htmlFor="deadline">
+                        <div>Срок выполнения</div>
+                        <input type="datetime-local" id="deadline"
+                               value={todo.deadline}
+                               name="deadline"
                                onChange={onChange}
                                onKeyPress={onKeyPressHandler}
                         />
