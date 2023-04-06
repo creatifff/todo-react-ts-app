@@ -145,13 +145,13 @@ export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
                 {/* По умолчанию панели редактирования нет, поэтому кнопка ADD то есть только добавить */}
                 {!isEdit && (
                     <Button color='blue' onClick={onClick}>
-                        ДОБАВИТЬ
+                        <i className="fa-solid fa-plus"></i>
                     </Button>
                 )}
                 {/* Если редактируется то появляется панель, вместо ADD кнопка EDIT */}
                 {isEdit && (
                     <Button color='blue' onClick={onClick}>
-                        ПРИМЕНИТЬ
+                        <i className="fa-solid fa-check"></i>
                     </Button>
                 )}
             </div>

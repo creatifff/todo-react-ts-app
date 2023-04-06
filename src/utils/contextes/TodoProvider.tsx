@@ -10,6 +10,21 @@ interface TodoProviderProps {
 // Типы фильтров
 export type FilterValuesType = 'all' | 'done' | 'undone';
 
+// export type SortValuesType = [
+//     {
+//         name: 'Все',
+//         sortProperty: 'default'
+//     } |
+//     {
+//         name: 'по дате добавления',
+//         sortProperty: 'date'
+//     } |
+//     {
+//         name: 'по сроку выполнения',
+//         sortProperty: 'deadline'
+//     }
+// ]
+
 
 // Все функции приложения будут работать через контекст. Поэтому создается функциональный компонент TodoProvider
 // Принимает children для работы интерфейса
@@ -101,6 +116,9 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
     } else if (filteredTodos === 'undone') {
         todosForFilter = todos.filter(t => !t.checked);
     }
+
+    // const [sortType, setSortType] = useState<SortValuesType>();
+
 
 
     // В useMemo заворачиваются все пропсы которые будут переданы из контекста

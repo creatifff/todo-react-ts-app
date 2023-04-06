@@ -15,6 +15,7 @@ export interface TodoContextProps {
     addTodo: ({name, description, deadline}: Omit<Todo, 'checked' | 'id' | 'created_at'>) => void;
     changeFilter: (value: FilterValuesType) => void;
     filteredTodos: FilterValuesType;
+    // sortedTodos: Todo[];
 }
 
 export const TodoContext = React.createContext<TodoContextProps>({
@@ -28,4 +29,5 @@ export const TodoContext = React.createContext<TodoContextProps>({
     changeFilter: () => {},
     todos: [],
     filteredTodos: "all",
+    // sortedTodos: [],
 });

@@ -1,12 +1,12 @@
 .button {
-    border-radius: 5px;
-    padding: 8px 20px;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
     cursor: pointer;
     background-color: #fff;
 }
 
 .button_red {
-    border: 1px solid rgba(210, 25, 25, .5);
     color: #d21919;
     transition: all .1s ease-in-out;
 }
@@ -16,7 +16,6 @@
 }
 
 .button_orange {
-    border: 1px solid rgba(210, 102, 25, .5);
     color: #d27c19;
     transition: all .1s ease-in-out;
 }
@@ -26,7 +25,6 @@
 }
 
 .button_blue {
-    border: 1px solid rgba(25, 118, 210, .5);
     color: #1976d2;
     transition: all .1s ease-in-out;
 }
