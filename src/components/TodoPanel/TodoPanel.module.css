@@ -1,6 +1,6 @@
 .todo_panel_container {
     background-color: #fff;
-    box-shadow: 0px 8px 11px -8px rgba(34, 60, 80, 0.09);
+    box-shadow: 0 8px 11px -8px rgba(34, 60, 80, 0.09);
     margin-bottom: 15px;
     padding: 25px 20px;
     border-radius: 5px;
@@ -25,10 +25,14 @@
 }
 
 .field_container input {
-    font-size: 15px;
-    padding: 10px 5px;
-    border-radius: 2px;
+    font-size: 14px;
+    padding: 10px;
     outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #e8e8e8;
+    font-family: Arial, 'sans-serif';
+    width: 100%;
 }
 
 .button_container {
@@ -44,5 +48,5 @@
 
 .error_message {
     color: red;
-    font-size: 13px;
+    font-size: 12px;
 }

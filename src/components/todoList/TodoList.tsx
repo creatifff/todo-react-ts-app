@@ -12,7 +12,8 @@ export const TodoList = () => {
         deleteTodo,
         selectTodoIdForEdit,
         changeFilter,
-        filteredTodos
+        filteredTodos,
+        // sortedTodos,
     } = useTodo();
     return (
         <>
@@ -26,7 +27,7 @@ export const TodoList = () => {
                     <button id={filteredTodos === 'done' ? "active__filter" : ""}
                             onClick={() => {changeFilter('done')}}
                     >
-                        <i className="fa-solid fa-check"></i>
+                        Выполнено
                     </button>
                     <button id={filteredTodos === 'undone' ? "active__filter" : ""}
                             onClick={() => {changeFilter('undone')}}
