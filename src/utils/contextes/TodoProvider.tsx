@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import DEFAULT_TODO_LIST from "../../data/todos";
 import {TodoContext} from "./TodoContext";
 
+
 // Пропсы содержит все возможные свойства компонента TodoProvider
 interface TodoProviderProps {
     children: React.ReactNode;
@@ -10,20 +11,6 @@ interface TodoProviderProps {
 // Типы фильтров
 export type FilterValuesType = 'all' | 'done' | 'undone';
 
-// export type SortValuesType = [
-//     {
-//         name: 'Все',
-//         sortProperty: 'default'
-//     } |
-//     {
-//         name: 'по дате добавления',
-//         sortProperty: 'date'
-//     } |
-//     {
-//         name: 'по сроку выполнения',
-//         sortProperty: 'deadline'
-//     }
-// ]
 
 
 // Все функции приложения будут работать через контекст. Поэтому создается функциональный компонент TodoProvider
@@ -99,15 +86,15 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
 
     // Создается массив значений фильтра и записывается в стейт
     const [filteredTodos, setFilteredTodos] = useState<FilterValuesType>('all'); // Первоначально "Все"
+
     // Функция для фильтрации задач
-    // Принимает пропсы (один из фильтров)
+    // Принимает пропсом одно из значений фильтра
     const changeFilter = (value: FilterValuesType) => {
         setFilteredTodos(value);
     }
     // Изначальный массив todos становится отфильтрованным массивом, состояние изменятся
     let todosForFilter = todos;
 
-    // Либо выполненные задачи отображаются
     // Сравнивается тип из стейта фильтров
     if (filteredTodos === 'done') {
         // Если совпал, отображаются завершенные
@@ -116,8 +103,6 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
     } else if (filteredTodos === 'undone') {
         todosForFilter = todos.filter(t => !t.checked);
     }
-
-    // const [sortType, setSortType] = useState<SortValuesType>();
 
 
 
