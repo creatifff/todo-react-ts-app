@@ -11,6 +11,8 @@ interface TodoProviderProps {
 // Типы фильтров
 export type FilterValuesType = 'all' | 'done' | 'undone';
 
+// Типы сорт
+export type SortValuesType = 'default' | 'by_date' | 'by_deadline';
 
 
 // Все функции приложения будут работать через контекст. Поэтому создается функциональный компонент TodoProvider
@@ -105,12 +107,37 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
     }
 
 
+    const [sortTodos, setSortTodos] = useState<SortValuesType>('default');
+
+    const changeSort = (value: SortValuesType) => {
+        setSortTodos(value);
+    }
+
+    // Функция для получения времени todo для сортировки
+    const getTime = (value: string): number => {
+        return new Date(value).getTime();
+    }
+
+    let todosForSort = todosForFilter; // todos // todosForFilter
+
+    if(sortTodos === 'by_date') {
+        todosForSort = todosForFilter.sort((a: Todo, b: Todo) =>
+            getTime(a.created_at) > getTime(b.created_at) ? 1 : -1
+        )
+    } else if (sortTodos === 'by_deadline') {
+        todosForSort = todosForFilter.sort((a: Todo, b: Todo) =>
+            getTime(a.deadline) > getTime(b.deadline) ? 1 : -1
+        )
+    }
+
+
 
     // В useMemo заворачиваются все пропсы которые будут переданы из контекста
     const value = React.useMemo(
         () => ({
             todoIdForEdit,
             todosForFilter,
+            todosForSort,
             deleteTodo,
             changeTodo,
             addTodo,
@@ -119,9 +146,12 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
             changeFilter,
             todos,
             filteredTodos,
+            changeSort,
+            sortTodos,
         }), [
             todoIdForEdit,
             todosForFilter,
+            todosForSort,
             deleteTodo,
             changeTodo,
             addTodo,
@@ -130,6 +160,8 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
             changeFilter,
             todos,
             filteredTodos,
+            changeSort,
+            sortTodos,
         ]);
 
     // Компонент работает с Provider и в качестве value (пропса) принимает все переданные функции из контекста
