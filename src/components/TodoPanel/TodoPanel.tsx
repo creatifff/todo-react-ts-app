@@ -130,7 +130,7 @@ export const TodoPanel: React.FC<TodoPanelProps> = (props) => {
                 <div className={styles.field_container}>
                     <label htmlFor="deadline">
                         <div>Срок выполнения</div>
-                        <input type="datetime-local" id="deadline"
+                        <input type="date" id="deadline"
                                value={todo.deadline}
                                name="deadline"
                                onChange={onChange}

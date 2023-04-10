@@ -1,10 +1,11 @@
 import React from "react";
-import {FilterValuesType} from "./TodoProvider";
+import {FilterValuesType, SortValuesType} from "./TodoProvider";
 
 // Записываем все функции в виде пропсов для передачи в контекст
 // null - либо выбран id либо ничего не выбрано (null)
 // void функция ничего не вернет
 export interface TodoContextProps {
+    todosForSort: Todo[];
     todosForFilter: Todo[];
     todos: Todo[];
     todoIdForEdit: Todo['id'] | null;
@@ -15,9 +16,12 @@ export interface TodoContextProps {
     addTodo: ({name, description, deadline}: Omit<Todo, 'checked' | 'id' | 'created_at'>) => void;
     changeFilter: (value: FilterValuesType) => void;
     filteredTodos: FilterValuesType;
+    changeSort: (value: SortValuesType) => void;
+    sortTodos: SortValuesType;
 }
 
 export const TodoContext = React.createContext<TodoContextProps>({
+    todosForSort: [],
     todosForFilter: [],
     todoIdForEdit: null,
     addTodo: () => {},
@@ -26,6 +30,8 @@ export const TodoContext = React.createContext<TodoContextProps>({
     checkTodo: () => {},
     selectTodoIdForEdit: () => {},
     changeFilter: () => {},
+    changeSort: () => {},
     todos: [],
     filteredTodos: "all",
+    sortTodos: "default"
 });
