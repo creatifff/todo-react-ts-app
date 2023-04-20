@@ -129,6 +129,9 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({children}) => {
             getTime(a.deadline) > getTime(b.deadline) ? 1 : -1
         )
     }
+    // else if (sortTodos === 'default') {
+    //     todosForSort = todos;
+    // }
 
 
 

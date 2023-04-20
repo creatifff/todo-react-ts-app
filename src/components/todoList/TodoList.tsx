@@ -2,13 +2,12 @@ import React from "react";
 import {TodoItem} from "./todoItem/TodoItem";
 import {TodoPanel} from "../TodoPanel/TodoPanel";
 import {useTodo} from "../../utils";
+import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 
 export const TodoList = () => {
-
-    // Все функции и параметры для задач из списка записываются в хук useTodo
+    // Все функции и параметры для задач с помощью useTodo передаются в компонент
     const {
-        todosForFilter,
         todosForSort,
         todoIdForEdit,
         checkTodo,
@@ -22,25 +21,52 @@ export const TodoList = () => {
         <>
             <div className="todolist__container">
                 <div className="filter__buttons">
-                    <button id={filteredTodos === 'all' ? "active__filter" : ""}
-                            onClick={() => {changeFilter('all')}}
+                    <Button
+                        onClick={() => {changeFilter('all')}}
+                        variant={filteredTodos === 'all' ? "contained" : "outlined"}
                     >
                         Все
-                    </button>
-                    <button id={filteredTodos === 'done' ? "active__filter" : ""}
-                            onClick={() => {changeFilter('done')}}
+                    </Button>
+                    <Button onClick={() => {changeFilter('done')}}
+                            variant={filteredTodos === 'done' ? "contained" : "outlined"}
                     >
                         Выполнено
-                    </button>
-                    <button id={filteredTodos === 'undone' ? "active__filter" : ""}
-                            onClick={() => {changeFilter('undone')}}
+                    </Button>
+                    <Button onClick={() => {changeFilter('undone')}}
+                            variant={filteredTodos === 'undone' ? "contained" : "outlined"}
                     >
                         Не выполнено
-                    </button>
+                    </Button>
                 </div>
                 <div className="sort__selects">
-                    <button onClick={() => {changeSort('by_date')}}>date</button>
-                    <button onClick={() => {changeSort('by_deadline')}}>deadline</button>
+                    <FormControl sx={{width: 220, fontSize: 14}}>
+                        <InputLabel id="demo-simple-select-label">Сортировка</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            label="Сортировка"
+                        >
+                            {/*<MenuItem*/}
+                            {/*    value="Не сортировать"*/}
+                            {/*    onClick={() => {changeSort('default')}}*/}
+                            {/*    selected={true}*/}
+                            {/*>*/}
+                            {/*    Не сортировать*/}
+                            {/*</MenuItem>*/}
+                            <MenuItem
+                                value="По дате создания"
+                                onClick={() => {changeSort('by_date')}}
+                            >
+                                По дате создания
+                            </MenuItem>
+                            <MenuItem
+                                value="По сроку выполнения"
+                                onClick={() => {changeSort('by_deadline')}}
+                            >
+                                По сроку выполнения
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
                 {/* По массиву задач проходимся методом map чтоб отобразить список */}
                 {todosForSort.map((todo) => {
@@ -50,6 +76,7 @@ export const TodoList = () => {
                             <TodoPanel
                                 key={todo.id}
                                 mode='edit'
+                                // Редактируются поля name, desc, deadline
                                 editTodo={
                                     {
                                         name: todo.name,
