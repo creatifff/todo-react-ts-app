@@ -30,25 +30,20 @@ a {
   flex-direction: row;
   gap: 20px;
   justify-content: center;
+  background-color: #1666af;
+  padding: 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 
 
 .filter__buttons button {
-  border: none;
-  outline: none;
-  background-color: #1a70c5;
   color: white;
   border-radius: 10px;
-  padding: 5px 8px;
   font-family: Arial;
 }
 
-#active__filter {
-  color: #1a70c5;
-  border: 1px solid #1a70c5;
-  background-color: #fff;
-  font-weight: bold;
-}
+
 
 
